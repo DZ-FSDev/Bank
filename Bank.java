@@ -44,11 +44,17 @@ public class Bank{
       new BankClient(firstName, lastName, (CLIENT_ID_BASE + this.numClients));                                                 
   }
   
- /*
-  * Returns the client of the bank which matches with the first and last name provided.
+ /**
+  * Returns a copy of the client of the bank which matches the first and last name provided;
+  * null otherwise.
+  *
+  * @param firstName The specified first name of the client to search.
+  * @param lastName The specified last name of the client to search.
+  * @return A copy of the client of the bank which matches the first and last name provided;
+  *         null otherwise.
   */
   public BankClient getBankClient(String firstName, String lastName){
-    for(int i = 0; i < this.numClients; i++){
+    for(int i = 0; i < this.numClients; i++) {
       if(this.clients[i].getFirstName().equals(firstName) &&
          this.clients[i].getLastName().equals(lastName)) {
         return clients[i].clone();
@@ -57,35 +63,46 @@ public class Bank{
     return null;
   }
 
- /*
+ /**
   * Adds a new chequing account to the bank for the client with the beginning balance provided.
+  * 
+  * @param client The client which the chequing account belongs.
+  * @param balance The balance of the chequing account.
+  * @return The account number which belongs to the new chequing account.
   */    
   public int addChequingAccount(BankClient client, double balance){
     this.accounts[this.numAccounts ++] = new ChequingAccount(client, balance, (ACCOUNT_ID_BASE + this.numAccounts));
     return (ACCOUNT_ID_BASE + this.numAccounts);
   }
   
- /*
+ /**
   * Adds a new savings account to the bank for the client with the beginning balance provided.
+  *
+  * @param client The client which the savings account belongs.
+  * @param balance The balance of the savings account.
+  * @return The account number which belongs to the new savings account.
   */    
   public int addSavingsAccount(BankClient client, double balance){
     accounts[numAccounts ++] = new SavingsAccount(client, balance, (ACCOUNT_ID_BASE + this.numAccounts));
     return (ACCOUNT_ID_BASE + this.numAccounts);
   }
   
- /*
-  * Returns the bank account of the bank which matches with the id provided.
+ /**
+  * Returns the bank account of the bank which matches with the id provided; null otherwise.
+  * 
+  * @param id The specified account id.
+  * @return The bank account of the bank which matches with the id provided; null otherwise.
   */    
   public BankAccount getBankAccount(int id){
     for(int i = 0; i < numAccounts; i++){
       if(accounts[i].getID() == id){
-        return this.accounts[i];
+        return this.accounts[i].clone();
       }
     }
     return null;
   }
   
- /*
+ /**
   * Pays interest to all the savings accounts of the bank.
   */    
   public void payInterest(){
