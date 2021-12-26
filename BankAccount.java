@@ -1,24 +1,39 @@
-/*
- * BankAccount
- * 
- * PURPOSE:  Defines an abstract bank account of its owner and account balance.
+/**
+ * Defines a bank account of its owner and account balance.
+ *
+ * @author JZ-FSDev
+ * @since 17.0.1
+ * @version 0.0.2
  */
 public abstract class BankAccount{
+  private final BankClient OWNER;  //Owner of the bank account.
+  private double balance;  //Balance of the bank account.
+  private final int ID;  //ID of the bank account.
   
-  protected BankClient owner;  //Owner of the bank account.
-  protected double balance;  //Balance of the bank account.
-  protected int id;  //ID of the bank account.
-  
- /*
-  * Constructor or bank account.  Sets instance variables to the passed parameters.
-  */    
-  public BankAccount(BankClient owner, double balance, int id){
-    this.owner = owner;
-    this.balance = balance;
-    this.id = id;
+ /**
+  * Constructs a bank account with a specified owner, balance and id.
+  * 
+  * @param owner The specified owner of this bank account.
+  * @param balance The specified starting balance of this bank account.
+  * @param id The specified id of this bank account.
+  * @throws IllegalArgumentException Thrown when an invalid owner or ID was specified.
+  */
+  public BankAccount(BankClient owner, double balance, int id) throws IllegalArgumentException {
+    this.OWNER = owner;
+    this.setBalance(balance);
+    this.ID = id;
   }
   
- /*
+ /**
+  * Sets the balance of this bank account to a new balance.
+  *
+  * @param newBalance The new balance for this bank account.
+  */
+  public void setBalance(double newBalance) {
+    
+  }
+  
+ /**
   * Adds the provided amount to the balance of the bank account.
   */    
   public void deposit(double amount){
@@ -43,13 +58,15 @@ public abstract class BankAccount{
     return id;
   }
   
- /*
-  * Dummy method to enable polymorphism.
+ /**
+  * Collects interest for the bank account.
   */    
-  public void collectInterest(){}
+  public abstract void collectInterest();
   
- /*
+ /**
   * Returns the description of the bank account, including the owner, ID, and the balance.
+  *
+  * @return The description of the bank account, including the owner, ID, and the balance.
   */    
   public String toString(){
     return "Account id: " + id + "\nOwner: " + owner + "\nBalance: $" + String.format("%.2f", balance);
