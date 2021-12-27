@@ -19,6 +19,7 @@ public abstract class BankAccount implements Clonable{
   * @throws IllegalArgumentException Thrown when an invalid owner, balance, or ID was specified.
   */
   public BankAccount(BankClient owner, double balance, int id) throws IllegalArgumentException {
+    if(owner == null) throw new IllegalArgumentException("Owner cannot be null!");
     this.OWNER = owner;
     this.setBalance(balance);
     this.ID = id;
@@ -87,10 +88,11 @@ public abstract class BankAccount implements Clonable{
   public abstract void collectInterest();
   
  /**
-  * Returns a deep clone of this Bank Account.
+  * Returns a clone of this Bank Account.
   * 
-  * @return A deep clone of this Bank Account.
+  * @return A clone of this Bank Account.
   */
+  @Override
   protected BankAccount clone(){
     return new BankAccount(owner.clone(), balance, id);
   }
@@ -99,7 +101,8 @@ public abstract class BankAccount implements Clonable{
   * Returns the description of the bank account, including the owner, ID, and the balance.
   *
   * @return The description of the bank account, including the owner, ID, and the balance.
-  */    
+  */
+  @Override
   public String toString(){
     return "Account id: " + id + "\nOwner: " + owner + "\nBalance: $" + String.format("%.2f", balance);
   }
