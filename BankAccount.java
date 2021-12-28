@@ -3,7 +3,7 @@
  *
  * @author JZ-FSDev
  * @since 17.0.1
- * @version 0.0.2
+ * @version 0.0.3
  */
 public abstract class BankAccount implements Clonable{
   private final BankClient OWNER;  //Owner of the bank account.
@@ -32,9 +32,7 @@ public abstract class BankAccount implements Clonable{
   * @throws IllegalArgumentException Thrown when a non-number is provided.
   */
   public void setBalance(double newBalance) throws IllegalArgumentException{
-    if(Double.isNaN(newBalance) || Double.isInfinite(newBalance)) {
-      throw new IllegalArgumentException(newBalance + " is not a valid balance.");
-    }
+    validateBalanceAmount(amount);
     
     this.balance = newBalance;
   }
@@ -43,12 +41,10 @@ public abstract class BankAccount implements Clonable{
   * Adds the provided amount to the balance of the bank account as a deposit.
   *
   * @param amount The specified amount to deposit.
-  * @throws IllegalArgumentException Thrown when a non-number is provided.
+  * @throws IllegalArgumentException Thrown when a non-number or negative number is provided.
   */    
   public void deposit(double amount) throws IllegalArgumentException{
-    if(Double.isNaN(amount) || Double.isInfinite(amount)) {
-      throw new IllegalArgumentException(amount + " is not a valid balance.");
-    }
+    validatePositiveAmount(amount);
     
     balance += amount;
   }
@@ -59,12 +55,10 @@ public abstract class BankAccount implements Clonable{
   * @param amount The specified amount to be withdrawn.
   * @throws InsufficientFundsException Thrown when there is not enough funds for the
   *         withdrawal.
-  * @throws IllegalArgumentException Thrown when a non-number is provided.
+  * @throws IllegalArgumentException Thrown when a non-number or negative number is provided.
   */    
   public void withdraw(double amount)throws InsufficientFundsException, IllegalArgumentException{
-    if(Double.isNaN(amount) || Double.isInfinite(amount)) {
-      throw new IllegalArgumentException(amount + " is not a valid balance.");
-    }
+    validatePositiveAmount(amount);
     
     if((balance - amount) > 0){
       balance -= amount;
@@ -80,6 +74,32 @@ public abstract class BankAccount implements Clonable{
   */    
   public int getID(){
     return id;
+  }
+  
+ /**
+  * Validates whether a specified amount is a valid value for a balance.
+  * Balances cannot be NaN, positive infinity, or negative infinity.
+  *
+  * @param amount The specified amount.
+  * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity.
+  */
+  private static void validateBalanceAmount(double amount) throws IllegalArgumentException {
+    if(!Double.isFinite(amount)) {
+      throw new IllegalArgumentException(amount + " is not a valid balance.");
+    }
+  }
+  
+ /**
+  * Validates whether a specified amount is a valid value for a positive balance.
+  * Balances cannot be NaN, positive infinity, or negative infinity.
+  *
+  * @param amount The specified amount.
+  * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity, or negative.
+  */
+  private static void validatePositiveAmount(double amount) throws IllegalArgumentException {
+    if(amount < 0 || !Double.isFinite(amount)) {
+      throw new IllegalArgumentException(amount + " is not a valid positive amount.");
+    }
   }
   
  /**
