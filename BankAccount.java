@@ -1,13 +1,15 @@
+import java.math.BigDecimal;
+
 /**
  * Defines a bank account of its owner and account balance.
  *
  * @author JZ-FSDev
  * @since 17.0.1
- * @version 0.0.3
+ * @version 0.0.5
  */
 public abstract class BankAccount implements Clonable{
   private final BankClient OWNER;  //Owner of the bank account.
-  private double balance;  //Balance of the bank account.
+  private BigDecimal balance;  //Balance of the bank account.
   private final int ID;  //ID of the bank account.
   
  /**
@@ -18,7 +20,7 @@ public abstract class BankAccount implements Clonable{
   * @param id The specified id of this bank account.
   * @throws IllegalArgumentException Thrown when an invalid owner, balance, or ID was specified.
   */
-  public BankAccount(BankClient owner, double balance, int id) throws IllegalArgumentException {
+  public BankAccount(BankClient owner, BigDecimal balance, int id) throws IllegalArgumentException {
     if(owner == null) throw new IllegalArgumentException("Owner cannot be null!");
     this.OWNER = owner;
     this.setBalance(balance);
@@ -31,7 +33,7 @@ public abstract class BankAccount implements Clonable{
   * @param newBalance The new balance for this bank account.
   * @throws IllegalArgumentException Thrown when a non-number is provided.
   */
-  public void setBalance(double newBalance) throws IllegalArgumentException{
+  public void setBalance(BigDecimal newBalance) throws IllegalArgumentException{
     validateBalanceAmount(amount);
     
     this.balance = newBalance;
@@ -43,10 +45,10 @@ public abstract class BankAccount implements Clonable{
   * @param amount The specified amount to deposit.
   * @throws IllegalArgumentException Thrown when a non-number or negative number is provided.
   */    
-  public void deposit(double amount) throws IllegalArgumentException{
+  public void deposit(BigDecimal amount) throws IllegalArgumentException{
     validatePositiveAmount(amount);
     
-    balance += amount;
+    this.balance = this.balance.add(amount);
   }
   
  /**
@@ -57,11 +59,11 @@ public abstract class BankAccount implements Clonable{
   *         withdrawal.
   * @throws IllegalArgumentException Thrown when a non-number or negative number is provided.
   */    
-  public void withdraw(double amount)throws InsufficientFundsException, IllegalArgumentException{
+  public void withdraw(BigDecimal amount)throws InsufficientFundsException, IllegalArgumentException{
     validatePositiveAmount(amount);
     
-    if((balance - amount) > 0){
-      balance -= amount;
+    if((balance.subtract(amount)) > 0){
+      balance = balance.subtract(amount);
     }else{
       throw new InsufficientFundsException("InsufficientFundsException: Insufficient funds for the withdrawal");
     }
@@ -83,8 +85,8 @@ public abstract class BankAccount implements Clonable{
   * @param amount The specified amount.
   * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity.
   */
-  private static void validateBalanceAmount(double amount) throws IllegalArgumentException {
-    if(!Double.isFinite(amount)) {
+  private static void validateBalanceAmount(BigDecimal amount) throws IllegalArgumentException {
+    if(!Double.isFinite(amount.DoubleValue())) {
       throw new IllegalArgumentException(amount + " is not a valid balance.");
     }
   }
@@ -96,8 +98,8 @@ public abstract class BankAccount implements Clonable{
   * @param amount The specified amount.
   * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity, or negative.
   */
-  private static void validatePositiveAmount(double amount) throws IllegalArgumentException {
-    if(amount < 0 || !Double.isFinite(amount)) {
+  private static void validatePositiveAmount(BigDecimal amount) throws IllegalArgumentException {
+    if(amount < 0 || !Double.isFinite(amount.DoubleValue())) {
       throw new IllegalArgumentException(amount + " is not a valid positive amount.");
     }
   }
@@ -124,6 +126,15 @@ public abstract class BankAccount implements Clonable{
   */
   @Override
   public String toString(){
-    return "Account id: " + id + "\nOwner: " + owner + "\nBalance: $" + String.format("%.2f", balance);
+    StringBuilder stringBuilder = new StringBuilder();
+    
+    stringBuilder.append("Account id: ");
+    stringBuilder.append(id);
+    stringBuilder.append("\nOwner: ");
+    stringBuilder.append(owner);
+    stringBuilder.append("\nBalance: $");
+    stringBuilder.append(balance.setScale(2));
+    
+    return stringBuilder.toString();
   }
 }
