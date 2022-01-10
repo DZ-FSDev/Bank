@@ -16,12 +16,12 @@ public class Bank{
   private static final long CLIENT_ID_BASE = 1019999999999999l;
   
   /** The starting account ID. */
-  private static final long ACCOUNT_ID_BASE = 499999;
+  private static final int ACCOUNT_ID_BASE = 499999;
   
   private BankClient[] clients;  //Array of clients
   private BankAccount[] accounts;  //Array of accounts
-  private long numClients;  //Number of clients in bank
-  private long numAccounts;  //Number of accounts in bank
+  private int numClients;  //Number of clients in bank
+  private int numAccounts;  //Number of accounts in bank
   
  /**
   * Contructs a new bank.
