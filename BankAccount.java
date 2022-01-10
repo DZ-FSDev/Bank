@@ -3,7 +3,7 @@
  *
  * @author JZ-FSDev
  * @since 17.0.1
- * @version 0.0.3
+ * @version 0.0.4
  */
 public abstract class BankAccount implements Clonable{
   private final BankClient OWNER;  //Owner of the bank account.
@@ -124,6 +124,15 @@ public abstract class BankAccount implements Clonable{
   */
   @Override
   public String toString(){
-    return "Account id: " + id + "\nOwner: " + owner + "\nBalance: $" + String.format("%.2f", balance);
+    StringBuilder stringBuilder = new StringBuilder();
+    
+    stringBuilder.append("Account id: ");
+    stringBuilder.append(id);
+    stringBuilder.append("\nOwner: ");
+    stringBuilder.append(owner);
+    stringBuilder.append("\nBalance: $");
+    stringBuilder.append(String.format("%.2f", balance));
+    
+    return stringBuilder.toString();
   }
 }
