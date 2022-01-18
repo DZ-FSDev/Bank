@@ -5,9 +5,9 @@ import java.math.BigDecimal;
  *
  * @author JZ-FSDev
  * @since 17.0.1
- * @version 0.0.5
+ * @version 0.0.6
  */
-public abstract class BankAccount implements Clonable{
+public abstract class BankAccount implements Cloneable{
   private final BankClient OWNER;  //Owner of the bank account.
   private BigDecimal balance;  //Balance of the bank account.
   private final int ID;  //ID of the bank account.
@@ -34,7 +34,7 @@ public abstract class BankAccount implements Clonable{
   * @throws IllegalArgumentException Thrown when a non-number is provided.
   */
   public void setBalance(BigDecimal newBalance) throws IllegalArgumentException{
-    validateBalanceAmount(amount);
+    validateBalanceAmount(newBalance);
     
     this.balance = newBalance;
   }
@@ -62,7 +62,7 @@ public abstract class BankAccount implements Clonable{
   public void withdraw(BigDecimal amount)throws InsufficientFundsException, IllegalArgumentException{
     validatePositiveAmount(amount);
     
-    if((balance.subtract(amount)) > 0){
+    if((balance.subtract(amount)).doubleValue() > 0){
       balance = balance.subtract(amount);
     }else{
       throw new InsufficientFundsException("InsufficientFundsException: Insufficient funds for the withdrawal");
@@ -75,7 +75,7 @@ public abstract class BankAccount implements Clonable{
   * @return The ID of the bank account.
   */    
   public int getID(){
-    return id;
+    return this.ID;
   }
   
  /**
@@ -86,7 +86,7 @@ public abstract class BankAccount implements Clonable{
   * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity.
   */
   private static void validateBalanceAmount(BigDecimal amount) throws IllegalArgumentException {
-    if(!Double.isFinite(amount.DoubleValue())) {
+    if(!Double.isFinite(amount.doubleValue())) {
       throw new IllegalArgumentException(amount + " is not a valid balance.");
     }
   }
@@ -99,7 +99,7 @@ public abstract class BankAccount implements Clonable{
   * @throws IllegalArgumentException Thrown when amount is NaN, or +/- infinity, or negative.
   */
   private static void validatePositiveAmount(BigDecimal amount) throws IllegalArgumentException {
-    if(amount < 0 || !Double.isFinite(amount.DoubleValue())) {
+    if(amount.doubleValue() < 0 || !Double.isFinite(amount.doubleValue())) {
       throw new IllegalArgumentException(amount + " is not a valid positive amount.");
     }
   }
@@ -116,7 +116,7 @@ public abstract class BankAccount implements Clonable{
   */
   @Override
   protected BankAccount clone(){
-    return new BankAccount(owner.clone(), balance, id);
+    return (BankAccount)this.clone();
   }
   
  /**
@@ -129,9 +129,9 @@ public abstract class BankAccount implements Clonable{
     StringBuilder stringBuilder = new StringBuilder();
     
     stringBuilder.append("Account id: ");
-    stringBuilder.append(id);
+    stringBuilder.append(ID);
     stringBuilder.append("\nOwner: ");
-    stringBuilder.append(owner);
+    stringBuilder.append(OWNER);
     stringBuilder.append("\nBalance: $");
     stringBuilder.append(balance.setScale(2));
     

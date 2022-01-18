@@ -45,7 +45,7 @@ public class Bank{
   }
   
  /**
-  * Returns a copy of the client of the bank which matches the first and last name provided;
+  * Returns a reference of the client of the bank which matches the first and last name provided;
   * null otherwise.
   *
   * @param firstName The specified first name of the client to search.
@@ -57,7 +57,7 @@ public class Bank{
     for(int i = 0; i < this.numClients; i++) {
       if(this.clients[i].getFirstName().equals(firstName) &&
          this.clients[i].getLastName().equals(lastName)) {
-        return clients[i].clone();
+        return clients[i];
       }
     }
     return null;
@@ -88,7 +88,7 @@ public class Bank{
   }
   
  /**
-  * Returns the bank account of the bank which matches with the id provided; null otherwise.
+  * Returns a reference of the bank account of the bank which matches with the id provided; null otherwise.
   * 
   * @param id The specified account id.
   * @return The bank account of the bank which matches with the id provided; null otherwise.
@@ -96,7 +96,7 @@ public class Bank{
   public BankAccount getBankAccount(int id){
     for(int i = 0; i < numAccounts; i++){
       if(accounts[i].getID() == id){
-        return this.accounts[i].clone();
+        return accounts[i];
       }
     }
     return null;
