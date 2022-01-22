@@ -1,13 +1,15 @@
+import java.math.BigDecimal;
+
 /**
  * Defines a subclass saving account of an owner, balance, and ID.
  *
  * @author JZ-FSDev
  * @since 17.0.1
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class SavingsAccount extends BankAccount{
  /** The the interest rate as a percent. */
-  private static final double INTEREST_RATE = 1.5;  //The interest to be paid to all savings accounts [Percent]
+  private static final BigDecimal INTEREST_RATE = BigDecimal.valueOf(1.5);  //The interest to be paid to all savings accounts [Percent]
   
  /**
   * Constructor of savings account.
@@ -16,7 +18,7 @@ public class SavingsAccount extends BankAccount{
   * @param balance The specified opening balance of this saving account.
   * @param id The specified id of this saving account.
   */    
-  public SavingsAccount(BankClient owner, double balance, int id){
+  public SavingsAccount(BankClient owner, BigDecimal balance, int id){
     super(owner, balance, id);
   }
   
@@ -24,7 +26,7 @@ public class SavingsAccount extends BankAccount{
   * Increases the balance of the savings account by the interest rate's percent.
   */    
   public void collectInterest(){
-    balance *= (INTEREST_RATE/100 + 1);
+    balance.multiply(INTEREST_RATE);
   }
   
  /**
