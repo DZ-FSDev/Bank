@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  */
 public abstract class BankAccount implements Cloneable{
   private final BankClient OWNER;  //Owner of the bank account.
-  private BigDecimal balance;  //Balance of the bank account.
+  protected BigDecimal balance;  //Balance of the bank account.
   private final int ID;  //ID of the bank account.
   
  /**
@@ -76,6 +76,15 @@ public abstract class BankAccount implements Cloneable{
   */    
   public int getID(){
     return this.ID;
+  }
+
+ /**
+  * Returns the balance of the bank account.
+  * 
+  * @return The balance of the bank account.
+  */    
+  public BigDecimal getBalance(){
+    return this.balance;
   }
   
  /**

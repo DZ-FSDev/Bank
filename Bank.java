@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+
 /**
  * Defines a bank of clients and accounts.
  * 
@@ -82,7 +84,7 @@ public class Bank{
   * @param balance The balance of the savings account.
   * @return The account number which belongs to the new savings account.
   */    
-  public int addSavingsAccount(BankClient client, double balance){
+  public int addSavingsAccount(BankClient client, BigDecimal balance){
     accounts[numAccounts ++] = new SavingsAccount(client, balance, (ACCOUNT_ID_BASE + this.numAccounts));
     return (ACCOUNT_ID_BASE + this.numAccounts);
   }
