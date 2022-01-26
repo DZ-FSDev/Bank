@@ -72,7 +72,7 @@ public class Bank{
   * @param balance The balance of the chequing account.
   * @return The account number which belongs to the new chequing account.
   */    
-  public int addChequingAccount(BankClient client, double balance){
+  public int addChequingAccount(BankClient client, BigDecimal balance){
     this.accounts[this.numAccounts ++] = new ChequingAccount(client, balance, (ACCOUNT_ID_BASE + this.numAccounts));
     return (ACCOUNT_ID_BASE + this.numAccounts);
   }
